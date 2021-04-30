@@ -1,0 +1,17 @@
+parameters:
+	ignoreErrors:
+		-
+			message: "#^Method MarekNocon\\\\ComposerCheckout\\\\Plugin\\\\ComposerCheckoutPlugin\\:\\:activate\\(\\) has no return typehint specified\\.$#"
+			count: 1
+			path: src/Plugin/ComposerCheckoutPlugin.php
+
+		-
+			message: "#^Method MarekNocon\\\\ComposerCheckout\\\\Plugin\\\\ComposerCheckoutPlugin\\:\\:deactivate\\(\\) has no return typehint specified\\.$#"
+			count: 1
+			path: src/Plugin/ComposerCheckoutPlugin.php
+
+		-
+			message: "#^Method MarekNocon\\\\ComposerCheckout\\\\Plugin\\\\ComposerCheckoutPlugin\\:\\:uninstall\\(\\) has no return typehint specified\\.$#"
+			count: 1
+			path: src/Plugin/ComposerCheckoutPlugin.php
+

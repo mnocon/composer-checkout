@@ -9,5 +9,24 @@
             "email": "mnocon@users.noreply.github.com"
         }
     ],
-    "require": {}
+    "autoload": {
+        "psr-4": {
+            "MarekNocon\\ComposerCheckout\\": "src/",
+            "MarekNocon\\ComposerCheckout\\Tests\\": "tests/"}
+    },
+    "require": {
+        "php": "^7.3",
+        "composer-plugin-api": "^2.0"
+    },
+    "require-dev": {
+        "composer/composer": "^2.0",
+        "ezsystems/ezplatform-code-style": "^1.0@dev",
+        "friendsofphp/php-cs-fixer": "^2.16.0",
+        "phpstan/phpstan": "~0.12"
+    },
+    "scripts": {
+        "phpstan": "phpstan analyse -c phpstan.neon",
+        "phpstan-baseline": "phpstan analyse -c phpstan.neon --generate-baseline",
+        "fix-cs": "php-cs-fixer fix -v --show-progress=estimating"
+    }
 }
