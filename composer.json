@@ -1,0 +1,13 @@
+{
+    "name": "mnocon/composer-checkout",
+    "description": "Tool to easily checkout dependencies",
+    "type": "composer-plugin",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Marek Nocoń",
+            "email": "mnocon@users.noreply.github.com"
+        }
+    ],
+    "require": {}
+}
