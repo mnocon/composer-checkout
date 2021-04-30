@@ -28,5 +28,11 @@
         "phpstan": "phpstan analyse -c phpstan.neon",
         "phpstan-baseline": "phpstan analyse -c phpstan.neon --generate-baseline",
         "fix-cs": "php-cs-fixer fix -v --show-progress=estimating"
+    },
+    "extra": {
+        "class": "MarekNocon\\ComposerCheckout\\Plugin\\ComposerCheckoutPlugin",
+        "branch-alias": {
+            "dev-main": "0.1.x-dev"
+        }
     }
 }

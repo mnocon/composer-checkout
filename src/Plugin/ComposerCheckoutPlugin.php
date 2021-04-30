@@ -5,22 +5,29 @@ namespace MarekNocon\ComposerCheckout\Plugin;
 
 use Composer\Composer;
 use Composer\IO\IOInterface;
+use Composer\Plugin\Capability\CommandProvider as ComposerCommandProvider;
+use Composer\Plugin\Capable;
 use Composer\Plugin\PluginInterface;
+use MarekNocon\ComposerCheckout\Command\CommandProvider;
 
-class ComposerCheckoutPlugin implements PluginInterface
+class ComposerCheckoutPlugin implements PluginInterface, Capable
 {
-    public function activate(Composer $composer, IOInterface $io)
+    public function activate(Composer $composer, IOInterface $io): void
     {
-        $io->write('Hello!');
     }
 
-    public function deactivate(Composer $composer, IOInterface $io)
+    public function deactivate(Composer $composer, IOInterface $io): void
     {
-        $io->write('Goodbye!');
     }
 
     public function uninstall(Composer $composer, IOInterface $io)
     {
-        $io->write('Sorry to see you go!');
+    }
+
+    public function getCapabilities()
+    {
+        return [
+            ComposerCommandProvider::class => CommandProvider::class,
+        ];
     }
 }
