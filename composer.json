@@ -17,7 +17,7 @@
     "require": {
         "php": "^7.3",
         "composer-plugin-api": "^2.0"
-    },
+        },
     "require-dev": {
         "composer/composer": "^2.0",
         "ezsystems/ezplatform-code-style": "^1.0@dev",
