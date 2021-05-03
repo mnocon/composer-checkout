@@ -97,14 +97,6 @@ class CheckoutCommand extends BaseCommand
             'https://github.com/ibexa/migrations.git',
             'ibexa/migrations'
         );
-
-        // failing public
-//        return new ComposerPullRequestData(
-//            'ez-dc-user',
-//            '3.0.x-dev',
-//            'https://github.com/ezsystems/ezplatform-admin-ui.git',
-//            'ezsystems/ezplatform-admin-ui',
-//        );
     }
 
     private function requireDependency($packageName, $branchName, $branchAlias, OutputInterface $output): void
