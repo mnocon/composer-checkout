@@ -18,12 +18,9 @@ abstract class BaseCommand extends ComposerBaseCommand
 
     private const RUN_SCRIPT_COMMAND_NAME = 'run';
 
-    abstract public function getCommandName(): string;
-
     protected function configure(): void
     {
-        $this->setName($this->getCommandName());
-        $this->addArgument('pullRequestUrls', InputArgument::IS_ARRAY);
+        $this->addArgument('pullRequestUrls', InputArgument::IS_ARRAY, 'Link to GitHub Pull Requests, e.g. https://github.com/symfony/symfony/pull/41105');
     }
 
     protected function interact(InputInterface $input, OutputInterface $output): void
@@ -47,7 +44,7 @@ abstract class BaseCommand extends ComposerBaseCommand
             $pullRequestUrls[] = $io->ask('Link to Pull Request', null, static function ($answer) {
                 if (!is_string($answer) || strpos($answer, 'github.com') === false) {
                     throw new \RuntimeException(
-                        'Link to Pull Request on GitHub expected. Example: https://github.com/ibexa/recipes/pull/22'
+                        'Link to Pull Request on GitHub expected. Example: https://github.com/symfony/symfony/pull/41105'
                     );
                 }
 
@@ -90,7 +87,7 @@ abstract class BaseCommand extends ComposerBaseCommand
 
     protected function getDownloader(): HttpDownloader
     {
-        if ($this->downloader) {
+        if ($this->downloader !== null) {
             return $this->downloader;
         }
 

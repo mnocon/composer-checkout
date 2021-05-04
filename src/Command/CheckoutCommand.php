@@ -12,9 +12,13 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class CheckoutCommand extends BaseCommand
 {
-    public function getCommandName(): string
+    protected function configure(): void
     {
-        return 'checkout';
+        parent::configure();
+        $this->setName('checkout');
+        $this->setHelp(
+            'Adds the branch from given GitHub Pull Request as a Composer dependency.'
+        );
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int

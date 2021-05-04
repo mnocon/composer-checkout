@@ -9,9 +9,13 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 
 class ApplyPatchCommand extends BaseCommand
 {
-    public function getCommandName(): string
+    protected function configure(): void
     {
-        return 'apply-patch';
+        parent::configure();
+        $this->setName('apply-patch');
+        $this->setHelp(
+            'Downloads a patch from given Pull Request and applies it to the existing package in vendor directory'
+        );
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
