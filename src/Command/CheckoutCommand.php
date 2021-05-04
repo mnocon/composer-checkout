@@ -122,6 +122,9 @@ class CheckoutCommand extends BaseCommand
         }
     }
 
+    /**
+     * @param array[] $composerJsonFile
+     */
     private function getBranchAlias(string $targetBranch, array $composerJsonFile): string
     {
         $matches = [];

@@ -1,7 +1,12 @@
 parameters:
 	ignoreErrors:
 		-
-			message: "#^Method MarekNocon\\\\ComposerCheckout\\\\Plugin\\\\ComposerCheckoutPlugin\\:\\:uninstall\\(\\) has no return typehint specified\\.$#"
+			message: "#^Parameter \\#1 \\$pullRequestUrls of method MarekNocon\\\\ComposerCheckout\\\\Command\\\\BaseCommand\\:\\:validateInput\\(\\) expects array\\<string\\>, array\\<string\\>\\|string\\|null given\\.$#"
 			count: 1
-			path: src/Plugin/ComposerCheckoutPlugin.php
+			path: src/Command/ApplyPatchCommand.php
+
+		-
+			message: "#^Parameter \\#1 \\$pullRequestUrls of method MarekNocon\\\\ComposerCheckout\\\\Command\\\\BaseCommand\\:\\:validateInput\\(\\) expects array\\<string\\>, array\\<string\\>\\|string\\|null given\\.$#"
+			count: 1
+			path: src/Command/CheckoutCommand.php
 

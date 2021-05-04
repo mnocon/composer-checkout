@@ -52,7 +52,7 @@ class ApplyPatchCommand extends BaseCommand
         return $fileName;
     }
 
-    private function applyPatch(GithubPullRequestData $pullRequestData, $patchFileName, SymfonyStyle $io): void
+    private function applyPatch(GithubPullRequestData $pullRequestData, string $patchFileName, SymfonyStyle $io): void
     {
         $output = [];
         $result_code = 0;
@@ -79,7 +79,10 @@ class ApplyPatchCommand extends BaseCommand
         $io->success('Applied patch!');
     }
 
-    private function isPatchSuccessFull(int $result_code, array $output)
+    /**
+     * @param string[] $output
+     */
+    private function isPatchSuccessFull(int $result_code, array $output): bool
     {
         return $result_code === 0 && empty(array_filter($output, static function (string $outputLine) {
             return strpos($outputLine, 'failed') !== false;

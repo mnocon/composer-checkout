@@ -24,7 +24,14 @@ abstract class BaseCommand extends ComposerBaseCommand
     {
         $this->setName($this->getCommandName());
         $this->addArgument('pullRequestUrls', InputArgument::IS_ARRAY);
-        $this->downloader = new HttpDownloader($this->getIO(), $this->getComposer()->getConfig());
+
+        $composer = $this->getComposer(true);
+
+        if ($composer === null) {
+            throw new \RuntimeException('Failure initialising Composer');
+        }
+
+        $this->downloader = new HttpDownloader($this->getIO(), $composer->getConfig());
     }
 
     protected function interact(InputInterface $input, OutputInterface $output): void
@@ -60,6 +67,8 @@ abstract class BaseCommand extends ComposerBaseCommand
     }
 
     /**
+     * @param string[] $pullRequestUrls
+     *
      * @return string[]
      */
     protected function validateInput(array $pullRequestUrls): array
