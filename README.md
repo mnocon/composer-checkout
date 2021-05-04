@@ -6,6 +6,10 @@ Forget about meddling with the `vendor` directory as well ;)
 
 Simpy run `composer checkout <pullRequestUrl> [<pullRequestUrl2>...]` and the rest will be taken care of automatically.
 
+![Example usage of the command](example.png "Example usage")
+
+There is also a `apply-patch` command that deals with diffs generated from Pull Requests.
+
 ## Installation
 
 It's recommended to do the global installation:
@@ -21,11 +25,11 @@ This packages requires at least PHP 7.1 and Composer 2.
 
 There are two new Composer commands:
 
-### composer checkout
+### `composer checkout`
 
 Adds a Composer dependency based on GitHub Pull Request.
 
-Use it with
+Example usage:
 ```
 composer checkout https://github.com/symfony/symfony/pull/41105
 ```
@@ -113,7 +117,7 @@ Use the `composer fund` command to find out more!
 
 Applies a diff from a Pull Request using the `patch` command.
 
-Use it with
+Example usage:
 ```
 composer apply-patch https://github.com/symfony/symfony/pull/41105
 ```
