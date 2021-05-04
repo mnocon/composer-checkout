@@ -41,9 +41,8 @@ class ApplyPatchCommand extends BaseCommand
                 $pullRequestData->package,
                 $pullRequestData->id
                 ),
-                [
-                    'http' => ['header' => ['Accept: application/vnd.github.VERSION.diff']],
-            ])
+                ['http' => ['header' => ['Accept: application/vnd.github.VERSION.diff']]]
+            )
             ->getBody();
 
         $fileName = sprintf('patch_%s-%s-%s', $pullRequestData->owner, $pullRequestData->package, $pullRequestData->id);
