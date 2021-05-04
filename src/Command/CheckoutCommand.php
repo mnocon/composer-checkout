@@ -60,7 +60,7 @@ class CheckoutCommand extends BaseCommand
         );
 
         $pullRequestDetails = json_decode(
-            $this->downloader
+            $this->getDownloader()
                     ->get($pullRequestDataRequestUrl)
                     ->getBody(),
     true
@@ -78,7 +78,7 @@ class CheckoutCommand extends BaseCommand
         );
 
         $composerJsonFile = json_decode(
-            $this->downloader
+            $this->getDownloader()
                 ->get(
                     $composerFileRequestUrl,
                     ['http' => ['header' => ['Accept: application/vnd.github.v3.raw']]]

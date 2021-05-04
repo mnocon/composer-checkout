@@ -33,7 +33,7 @@ class ApplyPatchCommand extends BaseCommand
 
     private function downloadPatch(GithubPullRequestData $pullRequestData, SymfonyStyle $io): string
     {
-        $diff = $this->downloader
+        $diff = $this->getDownloader()
             ->get(
                 sprintf(
                 'https://api.github.com/repos/%s/%s/pulls/%s',
@@ -61,12 +61,14 @@ class ApplyPatchCommand extends BaseCommand
 
         if (!@is_dir($directory)) {
             $directory = $io->ask(
-                sprintf('The %s directory does not exist. Please enter the path to the directory to patch', $directory),
+                sprintf('The "%s" directory does not exist. Please enter the path to the directory to patch', $directory),
                 $directory
             );
         }
 
         $command = sprintf('patch -d %s -i ../../../%s -Np1', $directory, $patchFileName);
+
+        $io->writeln(sprintf('Running command: %s', $command));
 
         exec($command, $output, $result_code);
         $io->writeln($output);

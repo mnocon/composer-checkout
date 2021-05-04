@@ -13,8 +13,8 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 
 abstract class BaseCommand extends ComposerBaseCommand
 {
-    /** @var HttpDownloader */
-    protected $downloader;
+    /** @var \Composer\Util\HttpDownloader */
+    private $downloader;
 
     private const RUN_SCRIPT_COMMAND_NAME = 'run';
 
@@ -24,14 +24,6 @@ abstract class BaseCommand extends ComposerBaseCommand
     {
         $this->setName($this->getCommandName());
         $this->addArgument('pullRequestUrls', InputArgument::IS_ARRAY);
-
-        $composer = $this->getComposer(true);
-
-        if ($composer === null) {
-            throw new \RuntimeException('Failure initialising Composer');
-        }
-
-        $this->downloader = new HttpDownloader($this->getIO(), $composer->getConfig());
     }
 
     protected function interact(InputInterface $input, OutputInterface $output): void
@@ -53,7 +45,7 @@ abstract class BaseCommand extends ComposerBaseCommand
         $pullRequestUrls = [];
         for ($i = 0; $i < $numberOfPullRequests; ++$i) {
             $pullRequestUrls[] = $io->ask('Link to Pull Request', null, static function ($answer) {
-                if (!is_string($answer) || strpos($answer, 'github.com') !== false) {
+                if (!is_string($answer) || strpos($answer, 'github.com') === false) {
                     throw new \RuntimeException(
                         'Link to Pull Request on GitHub expected. Example: https://github.com/ibexa/recipes/pull/22'
                     );
@@ -94,5 +86,22 @@ abstract class BaseCommand extends ComposerBaseCommand
         if ($runCommand->run($input, $output)) {
             throw new \RuntimeException('Something wrong happened when running post-install-cmd');
         }
+    }
+
+    protected function getDownloader(): HttpDownloader
+    {
+        if ($this->downloader) {
+            return $this->downloader;
+        }
+
+        $composer = $this->getComposer();
+
+        if ($composer === null) {
+            throw new \RuntimeException('Failure initialising Composer');
+        }
+
+        $this->downloader = new HttpDownloader($this->getIO(), $composer->getConfig());
+
+        return $this->downloader;
     }
 }
