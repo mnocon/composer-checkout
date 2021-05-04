@@ -15,7 +15,7 @@
             "MarekNocon\\ComposerCheckout\\Tests\\": "tests/"}
     },
     "require": {
-        "php": "^7.3",
+        "php": "^7.1",
         "composer-plugin-api": "^2.0",
         "ext-json": "*"
     },
@@ -23,17 +23,24 @@
         "composer/composer": "^2.0",
         "ezsystems/ezplatform-code-style": "^1.0@dev",
         "friendsofphp/php-cs-fixer": "^2.16.0",
-        "phpstan/phpstan": "~0.12"
+        "phpstan/phpstan": "~0.12",
+        "phpunit/phpunit": "^7.5"
     },
     "scripts": {
         "phpstan": "phpstan analyse -c phpstan.neon",
         "phpstan-baseline": "phpstan analyse -c phpstan.neon --generate-baseline",
-        "fix-cs": "php-cs-fixer fix -v --show-progress=estimating"
+        "fix-cs": "php-cs-fixer fix -v --show-progress=dots",
+        "test": "phpunit -c phpunit.xml"
     },
     "extra": {
         "class": "MarekNocon\\ComposerCheckout\\Plugin\\ComposerCheckoutPlugin",
         "branch-alias": {
             "dev-main": "0.1.x-dev"
+        }
+    },
+    "config": {
+        "platform": {
+            "php": "7.1"
         }
     }
 }

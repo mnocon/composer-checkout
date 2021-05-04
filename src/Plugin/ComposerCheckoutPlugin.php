@@ -14,17 +14,29 @@ class ComposerCheckoutPlugin implements PluginInterface, Capable
 {
     public function activate(Composer $composer, IOInterface $io): void
     {
+        if ($io->isVerbose()) {
+            $io->write('ComposerCheckout plugin activated.');
+        }
     }
 
     public function deactivate(Composer $composer, IOInterface $io): void
     {
+        if ($io->isVerbose()) {
+            $io->write('ComposerCheckout plugin deactivated.');
+        }
     }
 
-    public function uninstall(Composer $composer, IOInterface $io)
+    public function uninstall(Composer $composer, IOInterface $io): void
     {
+        if ($io->isVerbose()) {
+            $io->write('ComposerCheckout plugin uninstalled.');
+        }
     }
 
-    public function getCapabilities()
+    /**
+     * @return string[]
+     */
+    public function getCapabilities(): array
     {
         return [
             ComposerCommandProvider::class => CommandProvider::class,
