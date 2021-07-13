@@ -8,6 +8,7 @@ use MarekNocon\ComposerCheckout\PullRequest\ComposerPullRequestData;
 use MarekNocon\ComposerCheckout\PullRequest\GithubPullRequestData;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class CheckoutCommand extends BaseCommand
@@ -16,20 +17,21 @@ class CheckoutCommand extends BaseCommand
     {
         parent::configure();
         $this->setName('checkout');
-        $this->setHelp(
-            'Adds the branch from given GitHub Pull Request as a Composer dependency.'
-        );
+        $this->setHelp('Adds the branch from given GitHub Pull Request as a Composer dependency.');
+        $this->addOption('prefer-source', 's', InputOption::VALUE_OPTIONAL);
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $pullRequestUrls = $this->validateInput($input->getArgument('pullRequestUrls'));
 
+        $preferSource = $input->hasOption('prefer-source');
+
         foreach ($pullRequestUrls as $pullRequestUrl) {
             $githubPullRequestData = GithubPullRequestData::fromUrl($pullRequestUrl);
             $composerPullRequestData = $this->extractDataFromPullRequest($githubPullRequestData);
             $this->addRepository($composerPullRequestData->repositoryUrl, $output);
-            $this->requireDependency($composerPullRequestData, $output);
+            $this->requireDependency($composerPullRequestData, $output, $preferSource);
         }
 
         $this->executePostInstallCommands($output);
@@ -102,7 +104,7 @@ class CheckoutCommand extends BaseCommand
         );
     }
 
-    private function requireDependency(ComposerPullRequestData $pullRequestData, OutputInterface $output): void
+    private function requireDependency(ComposerPullRequestData $pullRequestData, OutputInterface $output, bool $preferSource): void
     {
         /** @var RequireCommand */
         $requireCommand = $this->getApplication()->get('require');
@@ -113,15 +115,19 @@ class CheckoutCommand extends BaseCommand
             $dependencyString
         ));
 
-        $input = new ArrayInput([
-            'packages' => [
-                $pullRequestData->packageName,
-                $dependencyString,
-            ],
-            '--no-scripts' => true,
-        ]);
+        $input = [
+                'packages' => [
+                    $pullRequestData->packageName,
+                    $dependencyString,
+                ],
+                '--no-scripts' => true,
+        ];
 
-        if ($requireCommand->run($input, $output)) {
+        if ($preferSource) {
+            $input['--prefer-source'] = true;
+        }
+
+        if ($requireCommand->run(new ArrayInput($input), $output)) {
             throw new \RuntimeException('`Failed on adding dependency');
         }
     }
