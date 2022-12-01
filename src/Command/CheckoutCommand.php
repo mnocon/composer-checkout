@@ -117,8 +117,7 @@ class CheckoutCommand extends BaseCommand
 
         $input = [
                 'packages' => [
-                    $pullRequestData->packageName,
-                    $dependencyString,
+                    sprintf("$pullRequestData->packageName:$dependencyString"),
                 ],
                 '--no-scripts' => true,
         ];
