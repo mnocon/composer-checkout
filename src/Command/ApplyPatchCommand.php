@@ -70,7 +70,7 @@ class ApplyPatchCommand extends BaseCommand
             );
         }
 
-        $command = sprintf('patch -d %s -i ../../../%s -Np1', $directory, $patchFileName);
+        $command = sprintf('patch -d %s -i ../../../%s -Np1 -E', $directory, $patchFileName);
 
         $io->writeln(sprintf('Running command: %s', $command));
 
