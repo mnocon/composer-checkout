@@ -24,21 +24,39 @@ class CheckoutCommand extends BaseCommand
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $pullRequestUrls = $this->validateInput($input->getArgument('pullRequestUrls'));
-
-        $preferSource = $input->hasOption('prefer-source');
-
+        $preferSource = $input->getOption('prefer-source');
+    
+        $packages = [];
         foreach ($pullRequestUrls as $pullRequestUrl) {
             $githubPullRequestData = GithubPullRequestData::fromUrl($pullRequestUrl);
             $composerPullRequestData = $this->extractDataFromPullRequest($githubPullRequestData);
             $this->addRepository($composerPullRequestData->repositoryUrl, $output);
-            $this->requireDependency($composerPullRequestData, $output, $preferSource);
+    
+            $dependencyString = sprintf('dev-%s as %s', $composerPullRequestData->branchName, $composerPullRequestData->branchAlias);
+            $packages[] = sprintf("%s:%s", $composerPullRequestData->packageName, $dependencyString);
         }
-
+    
+        $inputArray = [
+            'packages' => $packages,
+            '--no-scripts' => true,
+        ];
+    
+        if ($preferSource) {
+            $inputArray['--prefer-source'] = true;
+        }
+    
+        /** @var RequireCommand */
+        $requireCommand = $this->getApplication()->get('require');
+        if ($requireCommand->run(new ArrayInput($inputArray), $output)) {
+            throw new \RuntimeException('Failed on adding dependencies');
+        }
+    
         $this->executePostInstallCommands($output);
-
+    
         return 0;
     }
 
+    
     private function addRepository(string $repositoryUrl, OutputInterface $output): void
     {
         /** @var ConfigCommand $configCommand */
