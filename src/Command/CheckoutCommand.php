@@ -33,7 +33,7 @@ class CheckoutCommand extends BaseCommand
             $this->addRepository($composerPullRequestData->repositoryUrl, $output);
             $this->requireDependency($composerPullRequestData, $output, $preferSource);
         }
-
+        $this->resetComposer();
         $this->executePostInstallCommands($output);
 
         return 0;
@@ -51,9 +51,7 @@ class CheckoutCommand extends BaseCommand
 
         if ($configCommand->run($input, $output)) {
             throw new \RuntimeException('Something wrong happened when adding repository');
-        }
-
-        $this->resetComposer();
+        }        
     }
 
     private function extractDataFromPullRequest(GithubPullRequestData $pullRequestData): ComposerPullRequestData
@@ -69,7 +67,7 @@ class CheckoutCommand extends BaseCommand
             $this->getDownloader()
                     ->get($pullRequestDataRequestUrl)
                     ->getBody(),
-    true
+     true
         );
 
         $targetBranch = $pullRequestDetails['base']['ref'];
