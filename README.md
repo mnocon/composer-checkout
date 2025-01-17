@@ -4,7 +4,7 @@
 This Composer plugin allows you to add a Pull Request from GitHub as a Composer dependency without thinking about repositories and branch aliases.
 Forget about meddling with the `vendor` directory as well ;)
 
-Simpy run `composer checkout <pullRequestUrl> [<pullRequestUrl2>...]` and the rest will be taken care of automatically.
+Simply run `composer checkout <pullRequestUrl> [<pullRequestUrl2>...]` and the rest will be taken care of automatically.
 
 ![Example usage of the command](example.png "Example usage")
 
@@ -112,6 +112,21 @@ Generating autoload files
 17 packages you are using are looking for funding.
 Use the `composer fund` command to find out more!
 ```
+
+To revert changes remove added line in composer.json
+
+![Example usage reversion](example2.png "Example of reversion")
+
+and run:
+```
+composer u ibexa/name-of-the-package-with-checkout-applied
+```
+to update only the package for which checkout was applied or run:
+```
+composer update
+```
+to update all the packages.
+
 
 ### composer apply-patch
 
